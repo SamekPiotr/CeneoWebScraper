@@ -1,3 +1,8 @@
 h1{
     color:darkorange;
+     font-style:bold
 }
+
+:root {
+    --bs-body-bg: var(--bs-gray-100);
+  }
