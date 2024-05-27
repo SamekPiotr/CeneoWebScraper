@@ -6,25 +6,22 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}
-    <div class="container my-5">
-        <h2>Extract opinions</h2>
-        <div class="col-lg-8 px-0">
-            <p class="fs-5">      
-            <form class="container" method="POST" action="{{url_for('extract')}}">
-                <div class="row g-3 align-items-center">
-                    <input type="text" name="product_id" id="product_id" class="form-control" aria-describedby="product_idHelpInline" placeholder="Enter product code" required>
-                    <div class="col-auto">
+        <h2 class="container my-5">Extract opinions</h2>
+        <form class="container" method="POST" action="{{url_for('extract')}}">
+           <div class="row g-3 align-items-center">
+                <div class="col-auto">
                         <label for="product_id" class="col-form-label">Product code</label>
-                    </div>
-                    <div class="col-auto">
-                        <span id="product_idHelpInline" class="form-text">Product code must be 5-10 digits long.</span>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-warning">Extract</button>
-                    </div>
                 </div>
-            </p>
-            </form>
+                <div class="col-auto">
+                        <input type="text" name="product_id" id="product_id" class="form-control" aria-describedby="product_idHelpInline" placeholder="Enter product code" required>
+                </div>  
+                <div class="col-auto">
+                        <span id="product_idHelpInline" class="form-text">Product code must be 5-10 digits long</span>
+                </div>
+                <div class="col-auto">
+                        <button type="submit" class="btn btn-warning">Extract</button>
+                </div>
+            </div>
+        </form>
         </div>
-    </div>
 {% endblock %}
