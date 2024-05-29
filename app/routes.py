@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, send_file
 import requests
 from bs4 import BeautifulSoup
 from app.utils import extract_content, score, selectors, transformations, translate
@@ -7,6 +7,7 @@ import os
 import json
 import pandas as pd
 import numpy as np
+import io
 
 @app.route('/')
 def index():
@@ -86,7 +87,25 @@ def author():
 @app.route("/product/<product_id>")
 def product(product_id):
     if os.path.exists("app/data/opinions"):
-        with open(f"app/data/opinions/{product_id}.json","r",encoding="UTF-8") as jf:    
-            opinions = json.load(jf)
-        return render_template("product.html", product_id=product_id, opinions = opinions)
+            opinions = pd.read_json(f"app/data/opinions/{product_id}.json")
+            return render_template("product.html", product_id=product_id, opinions = opinions.to_html(classes="table table-warning table-striped", table_id='opinions', index=False))
     return redirect(url_for('extract'))
+
+@app.route('/download_json/<product_id>')
+def download_json(product_id):
+    return send_file("data/opinions/{product_id}.json", "text/json", as_attachment=True)
+
+@app.route('/download_csv/<product_id>')
+def download_csv(product_id):
+    opinions = pd.read_json(f'app/data/opinions/{product_id}.json')
+    buffer = io.BytesIO(opinions.to_csv(index=False).encode())
+    return send_file(buffer, "text/csv", as_attachment=True,download_name=f"{product_id}.csv")
+
+@app.route('/download_xlsx/<product_id>')
+def download_xlsx(product_id):
+    opinions = pd.read_json(f'app/data/opinions/{product_id}.json')
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer) as writer:
+        opinions.to_excel(writer, index=False)
+    buffer.seek(0)
+    return send_file(buffer, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", as_attachment=True, download_name=f'{product_id}.xlsx')

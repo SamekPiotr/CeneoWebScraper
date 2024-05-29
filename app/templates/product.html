@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
     <p>This is {{product_id}} product file. </p>
-    {{opinions}}
+    <div class='btn-group' role="'group" aria-label>
+        
+    </div>
+    {{opinions | safe}}
 {% endblock %}
+{% block scripts %}
+    <script>let table= new DataTable('#opinions',{});</script>
