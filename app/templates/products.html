@@ -5,9 +5,12 @@
         <div class="card-header border-warning">{{product.product_name}}</div>
         <div class="card-body text-success">
         <div class="card-header border-warning">{{product.product_id}}</div>
-            <p class="card-text">Stats</p>
+            <p class="card-text">Number of opinions: {{product.opinions_count}}</p>
+            <p class="card-text">Positive: {{product.opinions_count}}</p>
+            <p class="card-text">Negative: {{product.opinions_count}}</p>
         </div>
-        <a href="{{url_for('product', product_id=product.product_id)}}"><div class="card-footer border-warning" >Buttons</div></a>
+        <a href="{{url_for('product', product_id=product.product_id)}}"><div class="card-footer border-warning" >full information</div></a>
+        
     </div>
     {% endfor %}
 {% endblock %}
